@@ -89,8 +89,22 @@ public class Utente extends UtenteAstratto {
      * @throws IllegalStateException se l'utente appartiene gia' a un team
      */
     public Team creaTeam(String nome, String descrizione) {
-        return null;
-        //DA FAREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+        if (this.team != null) {
+            throw new IllegalStateException("Appartieni gia' a un team");
+        }
+
+        // Crea il nuovo team
+        Team nuovoTeam = new Team(nome, descrizione);
+
+        // Crea il leader basandosi sui dati di questo utente
+        Leader leader = new Leader(this.getNome(), this.getCognome(), this.getEmail(), this.getPassword());
+        leader.setTeam(nuovoTeam);
+
+        // Aggiunge il leader al team
+        nuovoTeam.setLeader(leader);
+        nuovoTeam.addMembro(leader);
+
+        return nuovoTeam;
     }
 
     /**
